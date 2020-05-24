@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    Shorted link:
+    <a href="{{ path('shortcode-resolve', {shortCode: shortCode}) }}">
+        here
+    </a>
+{% endblock body %}
