@@ -4,7 +4,7 @@ Extremely simple service to shorten some URLs.
 
 # Usage 
 
-Navigate to `/shortcode/create` and woohoo!
+Navigate to `/shortcode/create` and enjoy!
 
 # Requirements
 
