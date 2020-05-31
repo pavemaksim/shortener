@@ -8,15 +8,19 @@ Navigate to `/shortcode/create` and enjoy!
 
 # Requirements
 
-- PHP 7.2
-- MySQL 5.7
-- composer
+- Docker 19.03
+- docker-compose 1.25
 
 # Installation
 
 - Clone source code
-- Setup your DB credentials: `cp .env.local.example .env.local`
-- Run `composer install` in a source dir
-- Run migrations `php bin/console doctrine:migrations:migrate`
-- Run `symfony server:start` or `php bin/console server:start`
+- Run `docker-compose up`
+- Navigate to `http://symfony.localhost/`
 
+# Considerations
+
+This service is created only for demonstration purposes:
+
+- Make sure to use persistent storage (e.g. docker volumes) for db image
+- Make sure to use ENV variables for your environment settings for different images (db, php-fpm)
+- Make sure to use user-friendly UI :)
