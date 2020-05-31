@@ -40,7 +40,7 @@ class ShortUrlCreated
     {
         $this->shortUrlService->persistShortCode(
             $shortUrl,
-            $this->generatorService->generateCode(123)
+            $this->generatorService->generateCode($shortUrl->getId())
         );
     }
 }
