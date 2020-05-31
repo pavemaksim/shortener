@@ -27,6 +27,21 @@ services:
     # please note that last definitions always *replace* previous ones
 
     app.service.shortCodeGenerator:
-        class: App\Service\Url\ShortCodeGenerator
+        class: App\Service\ShortCode\ShortCodeGenerator
 
-    App\Service\Url\ShortCodeInterface: "@app.service.shortCodeGenerator"
+    App\Service\ShortCode\ShortCodeInterface: "@app.service.shortCodeGenerator"
+
+    app.service.shortUrlService:
+        class: App\Service\ShortUrl\ShortUrlService
+
+    App\Service\ShortUrl\ShortUrlInterface: "@app.service.shortUrlService"
+
+    App\EventListener\ShortUrlCreated:
+        tags:
+            - # these are the basic options that define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'App\Entity\ShortUrl'
+
+                # set the 'lazy' option to TRUE to only instantiate listeners when they are used
+                lazy: true
