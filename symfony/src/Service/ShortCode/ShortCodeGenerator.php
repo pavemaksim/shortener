@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\Url;
+namespace App\Service\ShortCode;
 
 /**
  * This is a simple example of generator for short codes
@@ -17,7 +17,7 @@ class ShortCodeGenerator implements ShortCodeInterface
      *
      * @return float|int
      */
-    public function generateCode()
+    public function generateCode(int $id)
     {
         return dechex(time());
     }

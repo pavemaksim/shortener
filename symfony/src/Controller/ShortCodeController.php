@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\ShortUrl;
 use App\Form\ShortUrlType;
 use App\Repository\ShortUrlRepository;
-use App\Service\Url\ShortCodeInterface;
+use App\Service\ShortUrl\ShortUrlInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,11 +19,18 @@ class ShortCodeController extends AbstractController
     private $em;
 
     /**
-     * IndexController constructor.
-     * @param EntityManagerInterface $em
+     * @var ShortUrlInterface
      */
-    public function __construct(EntityManagerInterface $em)
+    private $shortUrlService;
+
+    /**
+     * ShortCodeController constructor.
+     * @param EntityManagerInterface $em
+     * @param ShortUrlInterface $shortUrlService
+     */
+    public function __construct(EntityManagerInterface $em, ShortUrlInterface $shortUrlService)
     {
+        $this->shortUrlService = $shortUrlService;
         $this->em = $em;
     }
 
@@ -40,7 +47,7 @@ class ShortCodeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->getRepository(ShortUrl::class)->create($form->getData());
+            $this->shortUrlService->create($form->getData());
 
             return $this->redirectToRoute('shortcode-view', ['shortCode' => $shortUrl->getShortCode()]);
         }

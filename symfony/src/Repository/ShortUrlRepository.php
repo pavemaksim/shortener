@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\ShortUrl;
-use App\Service\Url\ShortCodeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,43 +16,13 @@ use Doctrine\Persistence\ManagerRegistry;
 class ShortUrlRepository extends ServiceEntityRepository
 {
     /**
-     * @param ShortCodeInterface
-     */
-    private $shortCodeService;
-
-    /**
-     * @param EntityManagerInterface
-     */
-    private $em;
-
-    /**
      * ShortUrlRepository constructor.
      *
      * @param ManagerRegistry $registry
-     * @param ShortCodeInterface $shortCodeService
-     * @param EntityManagerInterface $em
      */
-    public function __construct(ManagerRegistry $registry, ShortCodeInterface $shortCodeService, EntityManagerInterface $em)
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->shortCodeService = $shortCodeService;
-        $this->em = $em;
-
         parent::__construct($registry, ShortUrl::class);
-    }
-
-    /**
-     * Creates a new ShortUrl record with shortCode being generated
-     *
-     * @param $formData
-     */
-    public function create($formData)
-    {
-        $shortUrl = $formData;
-        $shortUrl->setShortCode($this->shortCodeService->generateCode());
-
-        $entityManager = $this->em;
-        $entityManager->persist($shortUrl);
-        $entityManager->flush();
     }
 
     /**
@@ -70,6 +39,7 @@ class ShortUrlRepository extends ServiceEntityRepository
             ->andWhere('su.shortCode = :shortCode')
             ->setParameter('shortCode', $shortCode)
             ->setParameter('now', new \DateTime('now'));
+
         return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();
     }
 }
