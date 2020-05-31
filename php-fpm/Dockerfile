@@ -1,0 +1,46 @@
+FROM alpine:3.10
+
+COPY wait-for-it.sh /usr/bin/wait-for-it
+
+RUN chmod +x /usr/bin/wait-for-it
+
+RUN apk add --update --no-cache \
+    coreutils \
+    php7-fpm \
+    php7-apcu \
+    php7-ctype \
+    php7-curl \
+    php7-dom \
+    php7-iconv \
+    php7-json \
+    php7-mcrypt \
+    php7-fileinfo\
+    php7-mbstring \
+    php7-opcache \
+    php7-openssl \
+    php7-pdo \
+    php7-pdo_mysql \
+    php7-mysqli \
+    php7-zlib \
+    php7-phar \
+    php7-tokenizer \
+    php7-session \
+    make \
+    curl
+
+RUN echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
+        && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
+        && php composer-setup.php && rm composer-setup.php* \
+        && chmod +x composer.phar && mv composer.phar /usr/bin/composer
+
+COPY symfony.ini /etc/php7/conf.d/
+COPY symfony.ini /etc/php7/cli/conf.d/
+
+COPY symfony.pool.conf /etc/php7/php-fpm.d/
+
+WORKDIR /var/www/symfony
+CMD /usr/bin/wait-for-it db:3306 -- bin/console doctrine:migrations:migrate --no-interaction
+
+CMD ["php-fpm7", "-F"]
+
+EXPOSE 9001

@@ -1,0 +1,11 @@
+{
+    "doctrine/sql-formatter": {
+        "version": "1.1.0"
+    },
+    "php": {
+        "version": "7.2.22"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.0"
+    }
+}

@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": "7.2.22",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.10",
@@ -20,6 +20,9 @@
         "symfony/maker-bundle": "^1.18"
     },
     "config": {
+        "platform": {
+            "php": "7.2.22"
+        },
         "preferred-install": {
             "*": "dist"
         },
